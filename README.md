@@ -2,10 +2,11 @@
 A set of functions that can be helpful working around with matrixes
 
 Here are listed the commands that can be used in the program.
-------------------------------------------
+
  MatrixSolver.cpp
-            Developed by Leonardo Airoldi
-------------------------------------------
+ -
+           Developed by Leonardo Airoldi
+            
 HELP:
 /help:
   Prints out all the commands available
