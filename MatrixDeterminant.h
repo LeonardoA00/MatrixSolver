@@ -105,7 +105,7 @@ long long Laplace_Sum(int DIM, indexes_t mat_indexes, int mat[][MEM_DIM])
 				for (j = 0; j < DIM; j++) {
 					if (mat_indexes.columns[j] == 1) {
 						real_j++;
-						temp = (long long)mat[i][j] * (int)pow(-1, (double)real_i+real_j);
+						temp = (long long)mat[i][j] * (int)pow(-1, (double)real_i + real_j);
 
 						temp = temp * Laplace_Sum(DIM, Mat_SubMat(mat_indexes, i, j), mat);
 						det = det + temp;

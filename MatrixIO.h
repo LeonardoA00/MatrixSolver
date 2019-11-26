@@ -13,21 +13,21 @@
 
 using namespace std;
 
-int IO_RandMat(int DIM, int mat[][MEM_DIM])
+int IO_RandMat(int DIM_R, int DIM_C, int mat[][MEM_DIM])
 {
 	srand(time(NULL));
-	for (int i = 0; i < DIM; i++) {
-		for (int j = 0; j < DIM; j++)
+	for (int i = 0; i < DIM_R; i++) {
+		for (int j = 0; j < DIM_C; j++)
 			mat[i][j] = rand() % DIM_NUM;
 	}
 
 	return 1;
 }
 
-int IO_UserInput(int DIM, int mat[][MEM_DIM])
+int IO_UserInput(int DIM_R, int DIM_C, int mat[][MEM_DIM])
 {
-	for (int i = 0; i < DIM; i++) {
-		for (int j = 0; j < DIM; j++) {
+	for (int i = 0; i < DIM_R; i++) {
+		for (int j = 0; j < DIM_C; j++) {
 			cin >> mat[i][j];
 		}
 	}
@@ -35,15 +35,15 @@ int IO_UserInput(int DIM, int mat[][MEM_DIM])
 	return 1;
 }
 
-int float_IO_fPrintMat(int DIM, float mat[][MEM_DIM], string path, int fprecision)
+int float_IO_fPrintMat(int DIM_R, int DIM_C, float mat[][MEM_DIM], string path, int fprecision)
 {
 	int i, j;
 	ofstream mat_log;
 	mat_log.open(path);
 	mat_log.precision(MAX_PRECISION);
 
-	for (i = 0; i < DIM; i++) {
-		for (j = 0; j < DIM; j++) {
+	for (i = 0; i < DIM_R; i++) {
+		for (j = 0; j < DIM_C; j++) {
 			mat_log << mat[i][j] << "\t\t";
 		}
 		mat_log << endl;
@@ -54,13 +54,13 @@ int float_IO_fPrintMat(int DIM, float mat[][MEM_DIM], string path, int fprecisio
 	return 1;
 }
 
-int IO_fPrintMat(int DIM, int mat[][MEM_DIM], string path) 
+int IO_fPrintMat(int DIM_R, int DIM_C, int mat[][MEM_DIM], string path)
 {
 	int i, j;
 	ofstream mat_log;
 	mat_log.open(path);
-	for (i = 0; i < DIM; i++) {
-		for (j = 0; j < DIM; j++) {
+	for (i = 0; i < DIM_R; i++) {
+		for (j = 0; j < DIM_C; j++) {
 			mat_log << mat[i][j] << "\t";
 		}
 		mat_log << endl;
@@ -72,12 +72,12 @@ int IO_fPrintMat(int DIM, int mat[][MEM_DIM], string path)
 }
 
 
-int float_IO_PrintMat(int DIM, float mat[][MEM_DIM], int fprecision)
+int float_IO_PrintMat(int DIM_R, int DIM_C, float mat[][MEM_DIM], int fprecision)
 {
 	int i, j;
-	
-	for (i = 0; i < DIM; i++) {
-		for (j = 0; j < DIM; j++) {
+
+	for (i = 0; i < DIM_R; i++) {
+		for (j = 0; j < DIM_C; j++) {
 			if (mat[i][j] < 0) {
 				switch (fprecision) {
 				case 0:
@@ -167,12 +167,12 @@ int float_IO_PrintMat(int DIM, float mat[][MEM_DIM], int fprecision)
 }
 
 
-int IO_PrintMat(int DIM, int mat[][MEM_DIM]) 
+int IO_PrintMat(int DIM_R, int DIM_C, int mat[][MEM_DIM])
 {
 	int i, j;
 
-	for (i = 0; i < DIM; i++) {
-		for (j = 0; j < DIM; j++) {
+	for (i = 0; i < DIM_R; i++) {
+		for (j = 0; j < DIM_C; j++) {
 			cout << mat[i][j] << "\t";
 		}
 		cout << endl;
@@ -181,13 +181,13 @@ int IO_PrintMat(int DIM, int mat[][MEM_DIM])
 	return 1;
 }
 
-int IO_Load_File(int DIM, int mat[][MEM_DIM], char path[]) {
-	
+int IO_Load_File(int DIM_R, int DIM_C, int mat[][MEM_DIM], char path[]) {
+
 	ifstream mat_file;
 	mat_file.open(path);
 
-	for (int i = 0; i < DIM; i++) {
-		for (int j = 0; j < DIM; j++) {
+	for (int i = 0; i < DIM_R; i++) {
+		for (int j = 0; j < DIM_C; j++) {
 			mat_file >> mat[i][j];
 		}
 	}
@@ -216,4 +216,26 @@ int IO_Print_SubMat(int DIM, int mat[][MEM_DIM], indexes_t indexes) {
 	cout << endl;
 
 	return 1;
+}
+
+void Matrix_Convert_Type(matrix_wdim_t* matwd, int mat[][MEM_DIM], int* DIM_R, int* DIM_C, int from_to) {
+	/*fromm_to: The verse in which to do the conversion
+		0: from array to strucy
+		1: from struct to array
+	*/
+	int i, j;
+	if (from_to == 0) {
+		matwd->i = *DIM_R;
+		matwd->j = *DIM_C;
+		for (i = 0; i < *DIM_R; i++)
+			for (j = 0; j < *DIM_C; j++)
+				matwd->mat[i][j] = mat[i][j];
+	}
+	else if (from_to == 1) {
+		*DIM_R = matwd->i;
+		*DIM_C = matwd->j;
+		for (i = 0; i < *DIM_R; i++)
+			for (j = 0; j < *DIM_C; j++)
+				mat[i][j] = matwd->mat[i][j];
+	}
 }
